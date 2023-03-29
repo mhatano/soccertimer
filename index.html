@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Soccer Timer v.1.2ea</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Soccer Timer Prototype v1.2.23032712</title>
+</head>
+<body>
+  <div class="soccertimer-main">
+    <h1>Soccer Timer v1.2ea</h1>
+    <p>
+    <div class="button-section">
+      <controller-button id="kickoff-button" label="START"></controller-button>
+      <controller-button id="timeup-button" label="HALF TIME"></controller-button>
+    </div>
+    <div class="clock-section">
+      <span class="clock-caption">This Half:</span><clock-face id="this-half" text="00:00"></clock-face>
+      <span class="clock-caption">Total Time:</span><clock-face id="total" text="00:00" disabled></clock-face>
+    </div>
+    <div class="adjust-button-section">
+      <adjust-button id="adjust-plus" label="Adjust+"></adjust-button>
+      <adjust-button id="adjust-minus" label ="Adjust-"></adjust-button>
+    </div>
+    </p>
+  </div>
+</body>
+</html>
+<!-- partial -->
+  <script type="module" src="./script.js"></script>
+
+</body>
+</html>
