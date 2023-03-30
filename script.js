@@ -177,7 +177,7 @@ class ClockFace extends LitElement {
           margin-right: 70px;
         }
       </style>
-      <span><div>${this.text}<div></span>
+      <span><div>${this.text}</div></span>
     `;
   }
 
