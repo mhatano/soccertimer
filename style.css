@@ -22,7 +22,9 @@ body {
 }
 
 .clock-caption {
-  vertical-align: bottom;
+  display: flex;
+  height: 100%;
+  vertical-align: middle;
   text-align: right;
   font-size: 16pt;
 }

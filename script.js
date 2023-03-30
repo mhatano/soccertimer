@@ -166,6 +166,8 @@ class ClockFace extends LitElement {
         span {
           display: flex;
           font-size: 36pt;
+          padding-top: 20px;
+          padding-bottom: 20px;
           align-item: center;
           border-radius: 12px;
           background-color: ${this.backgroundColor};
