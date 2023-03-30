@@ -164,15 +164,20 @@ class ClockFace extends LitElement {
     return html`
       <style>
         span {
+          display: flex;
           font-size: 36pt;
-          padding: 5px 100px 5px 100px;
-          text-align: center;
+          align-itme: center;
           border-radius: 12px;
           background-color: ${this.backgroundColor};
           color: ${this.color};
         }
+        span > div {
+          width: 100%;
+          text-align: right;
+          margin-right: 70px;
+        }
       </style>
-      <span>${this.text}</span>
+      <span><div>${this.text}<div></span>
     `;
   }
 
@@ -181,7 +186,7 @@ class ClockFace extends LitElement {
     if (this.date != null) {
       var now = new Date();
       duration = Math.floor((now - this.date) / 1000);
-      this.text = zeroPad(duration / 60) + ":" + zeroPad(duration % 60);
+      this.text = zeroPadMin(duration / 60) + ":" + zeroPadSec(duration % 60);
     }
     var timeupButton = document.getElementById("timeup-button");
     var duration_min = duration / 60;
@@ -243,7 +248,18 @@ class ClockFace extends LitElement {
 
 customElements.define("clock-face", ClockFace);
 
-function zeroPad(i) {
+
+function zeroPadSec(i) {
+  var s = "00" + Math.floor(i);
+  return s.substring(s.length - 2);
+}
+
+function zeroPadMin(i) {
+  var s;
+  if ( i >= 100 ) {
+    s = "" + Math.floor(i);
+    return s.substring(s.length - 3);
+  }
   var s = "00" + Math.floor(i);
   return s.substring(s.length - 2);
 }
