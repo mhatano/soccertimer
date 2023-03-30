@@ -16,7 +16,7 @@ body {
 
 .clock-section {
   display: grid;
-  grid-template-columns: 120px auto;
+  grid-template-columns: 120px 300px;
   gap: 20px;
   padding: 20px;
 }
