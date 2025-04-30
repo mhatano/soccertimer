@@ -81,7 +81,30 @@ class ControllerButton extends LitElement {
     super();
     this.backgroundColor = this.getAttribute("backgroundColor") || "#00bebe";
     this.color = this.getAttribute("color") || "black";
-    this.label = this.getAttribute("label") || "Click Me";
+    
+    // Restore state from localStorage if it exists
+    const savedState = localStorage.getItem(`controller-${this.id}`);
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      this.label = state.label;
+    } else {
+      this.label = this.getAttribute("label") || "Click Me";
+    }
+  }
+
+  saveState() {
+    const state = {
+      label: this.label
+    };
+    localStorage.setItem(`controller-${this.id}`, JSON.stringify(state));
+  }
+
+  setAttribute(name, value) {
+    super.setAttribute(name, value);
+    if (name === "label") {
+      this.label = value;
+      this.saveState();
+    }
   }
 
   render() {
@@ -175,7 +198,31 @@ class ClockFace extends LitElement {
     this.backgroundColor = this.getAttribute("backgroundColor") || "#a0c0a8";
     this.color = this.getAttribute("color") || "black";
     this.text = this.getAttribute("text") || "00:00";
-    this.date = Date.now();
+    
+    // Restore state from localStorage if it exists
+    const savedState = localStorage.getItem(`clockface-${this.id}`);
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      this.date = state.date ? new Date(state.date).getTime() : null;
+      this.text = state.text;
+      this.color = state.color;
+      if (this.date) {
+        this.intervalId = setInterval(() => {
+          this.setText();
+        }, intervalConst);
+      }
+    } else {
+      this.date = Date.now();
+    }
+  }
+
+  saveState() {
+    const state = {
+      date: this.date,
+      text: this.text,
+      color: this.color
+    };
+    localStorage.setItem(`clockface-${this.id}`, JSON.stringify(state));
   }
 
   render() {
@@ -222,6 +269,7 @@ class ClockFace extends LitElement {
     } else {
       this.color = "black";
     }
+    this.saveState();
   }
 
   setTimeDiff(_date, min) {
@@ -229,6 +277,7 @@ class ClockFace extends LitElement {
     this.intervalId = setInterval(() => {
       this.setText();
     }, intervalConst);
+    this.saveState();
   }
 
   setTime(_date) {
@@ -236,6 +285,7 @@ class ClockFace extends LitElement {
       this.setTimeDiff(_date, 0);
     } else {
       this.date = null;
+      this.saveState();
     }
   }
 
@@ -247,6 +297,7 @@ class ClockFace extends LitElement {
       this.date -= 60000 - (duration % 60000);
       this.date -= this.date % 1000;
       this.date += now % 1000;
+      this.saveState();
     }
   }
 
@@ -258,11 +309,13 @@ class ClockFace extends LitElement {
       this.date += duration % 60000;
       this.date -= this.date % 1000;
       this.date += now % 1000;
+      this.saveState();
     }
   }
 
   stop() {
     clearInterval(this.intervalId);
+    this.saveState();
   }
 }
 
