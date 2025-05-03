@@ -207,7 +207,7 @@ class ClockFace extends LitElement {
       this.date = state.date ? new Date(state.date).getTime() : null;
       this.text = state.text;
       this.color = state.color;
-      if (this.date) {
+      if (this.date && this.running ) {
         this.intervalId = setInterval(() => {
           this.setText();
         }, intervalConst);
@@ -279,7 +279,7 @@ class ClockFace extends LitElement {
     this.intervalId = setInterval(() => {
       this.setText();
     }, intervalConst);
-    this.state.running = true;
+    this.running = true;
     this.saveState();
   }
 
@@ -288,7 +288,7 @@ class ClockFace extends LitElement {
       this.setTimeDiff(_date, 0);
     } else {
       this.date = null;
-      this.state.running = true;
+      this.running = true;
       this.saveState();
     }
   }
@@ -319,7 +319,7 @@ class ClockFace extends LitElement {
 
   stop() {
     clearInterval(this.intervalId);
-    this.state.running = false;
+    this.running = false;
     this.saveState();
   }
 }
