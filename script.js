@@ -186,6 +186,7 @@ class ClockFace extends LitElement {
   date = null;
   halfdur = 45;
   fulldur = 90;
+  running = false;
 
   static properties = {
     backgroundColor: { type: String },
@@ -220,7 +221,8 @@ class ClockFace extends LitElement {
     const state = {
       date: this.date,
       text: this.text,
-      color: this.color
+      color: this.color,
+      running: this.running
     };
     localStorage.setItem(`clockface-${this.id}`, JSON.stringify(state));
   }
@@ -277,6 +279,7 @@ class ClockFace extends LitElement {
     this.intervalId = setInterval(() => {
       this.setText();
     }, intervalConst);
+    this.state.running = true;
     this.saveState();
   }
 
@@ -285,6 +288,7 @@ class ClockFace extends LitElement {
       this.setTimeDiff(_date, 0);
     } else {
       this.date = null;
+      this.state.running = true;
       this.saveState();
     }
   }
@@ -315,6 +319,7 @@ class ClockFace extends LitElement {
 
   stop() {
     clearInterval(this.intervalId);
+    this.state.running = false;
     this.saveState();
   }
 }
