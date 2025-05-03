@@ -14,3 +14,5 @@ To support smartphone browsers, local storage is used.
 * "Adjust-" will set the clock to the same minute, zero second. For example, when the clock is "23:03", it will go back to "23:00". You can use this to adjust to the official clock.
 
 This clock shows the clock counting even after the regulation time is passed. Normally stadium clock is off after 45 minutes passed, so you can use to check the game time with this application.
+
+To test the application, access https://mhatano.github.io/soccertimer
