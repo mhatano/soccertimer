@@ -18,6 +18,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 ***/
 import { LitElement, html } from 'https://esm.sh/lit@2.8.0';
 
+const ONE_MINUTE_MS = 60000;
+const ONE_SECOND_MS = 1000;
+const ONE_MINUTES_SEC = 60;
+
 class AdjustButton extends LitElement {
   static properties = {
     backgroundColor: { type: String },
@@ -254,11 +258,11 @@ class ClockFace extends LitElement {
     let duration = 0;
     if (this.date != null) {
       const now = new Date();
-      duration = Math.floor((now - this.date) / 1000);
-      this.text = zeroPadMin(duration / 60) + ":" + zeroPadSec(duration % 60);
+      duration = Math.floor((now - this.date) / ONE_SECOND_MS);
+      this.text = zeroPadMin(duration / ONE_MINUTES_SEC) + ":" + zeroPadSec(duration % ONE_MINUTES_SEC);
     }
     const timeupButton = document.getElementById("timeup-button");
-    const duration_min = duration / 60;
+    const duration_min = duration / ONE_MINUTES_SEC;
     if (
       (this.id == "this-half" && duration_min > this.halfdur) ||
       (this.id == "total" &&
@@ -276,7 +280,7 @@ class ClockFace extends LitElement {
   }
 
   setTimeDiff(_date, min) {
-    this.date = _date - min * 60 * 1000;
+    this.date = _date - min * ONE_MINUTE_MS;
     this.intervalId = setInterval(() => {
       this.setText();
     }, intervalConst);
@@ -299,7 +303,7 @@ class ClockFace extends LitElement {
     if (this.date != null) {
       const now = new Date();
       duration = now - this.date;
-      this.date -= 60000 - (duration % 60000);
+      this.date -= ONE_MINUTE_MS - (duration % ONE_MINUTE_MS);
       this.saveState();
       this.setText();
     }
@@ -310,7 +314,7 @@ class ClockFace extends LitElement {
     if (this.date != null) {
       const now = new Date();
       duration = now - this.date;
-      this.date += duration % 60000;
+      this.date += duration % ONE_MINUTE_MS;
       this.saveState();
       this.setText();
     }
@@ -340,4 +344,4 @@ function zeroPadMin(i) {
   return s.substring(s.length - 2);
 }
 
-const intervalConst = 93;
+const intervalConst = 97;
