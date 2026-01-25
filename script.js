@@ -18,6 +18,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 ***/
 import { LitElement, html } from 'https://esm.sh/lit@2.8.0';
 
+let currentHalfDuration = 45;
+
 const ONE_MINUTE_MS = 60000;
 const ONE_SECOND_MS = 1000;
 const ONE_MINUTES_SEC = 60;
@@ -152,7 +154,7 @@ class ControllerButton extends LitElement {
           totalClock.setTime(date);
         } else {
           this.setAttribute("label", "2nd HALF STARTED");
-          totalClock.setTimeDiff(date, 45);
+          totalClock.setTimeDiff(date, currentHalfDuration);
         }
       } else if (this.getAttribute("label") == "RESET") {
         thisHalfClock.stop();
@@ -173,7 +175,7 @@ class ControllerButton extends LitElement {
         thisHalfClock.setAttribute("text", "00:00");
         totalClock.stop();
         totalClock.setAttribute("color", "black");
-        totalClock.setAttribute("text", "45:00");
+        totalClock.setAttribute("text", zeroPadMin(currentHalfDuration) + ":00");
       } else if (this.getAttribute("label") == "FULL TIME") {
         kickoffButton.setAttribute("label", "RESET");
         thisHalfClock.stop();
@@ -188,8 +190,6 @@ customElements.define("controller-button", ControllerButton);
 class ClockFace extends LitElement {
   intervalId = 0;
   date = null;
-  halfdur = 45;
-  fulldur = 90;
   running = false;
 
   static properties = {
@@ -264,12 +264,12 @@ class ClockFace extends LitElement {
     const timeupButton = document.getElementById("timeup-button");
     const duration_min = duration / ONE_MINUTES_SEC;
     if (
-      (this.id == "this-half" && duration_min > this.halfdur) ||
+      (this.id == "this-half" && duration_min > currentHalfDuration) ||
       (this.id == "total" &&
         ((timeupButton.getAttribute("label") == "HALF TIME" &&
-          duration_min > this.halfdur) ||
+          duration_min > currentHalfDuration) ||
           (timeupButton.getAttribute("label") == "FULL TIME" &&
-            duration_min > this.fulldur)))
+            duration_min > currentHalfDuration * 2)))
     ) {
       this.color = "red";
     } else {
@@ -345,3 +345,18 @@ function zeroPadMin(i) {
 }
 
 const intervalConst = 97;
+
+// Initialize configuration
+const durationSelect = document.getElementById("half-duration-select");
+if (durationSelect) {
+  const savedDuration = localStorage.getItem("soccer-timer-duration");
+  if (savedDuration || savedDuration != currentHalfDuration.toString()) {
+    currentHalfDuration = parseInt(savedDuration, 10);
+    durationSelect.value = savedDuration;
+  }
+  
+  durationSelect.addEventListener("change", (e) => {
+    currentHalfDuration = parseInt(e.target.value, 10);
+    localStorage.setItem("soccer-timer-duration", currentHalfDuration);
+  });
+}
