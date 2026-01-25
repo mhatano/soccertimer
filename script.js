@@ -43,7 +43,7 @@ class AdjustButton extends LitElement {
           color: ${this.color};
           font-size: 14pt;
           font-family: sans-serif;
-          font-weight: plain;
+          font-weight: normal;
           padding: 10px 20px 10px 20px;
           width: 190px;
           height: 50px;
@@ -300,9 +300,8 @@ class ClockFace extends LitElement {
       const now = new Date();
       duration = now - this.date;
       this.date -= 60000 - (duration % 60000);
-      this.date -= this.date % 1000;
-      this.date += now % 1000;
       this.saveState();
+      this.setText();
     }
   }
 
@@ -312,9 +311,8 @@ class ClockFace extends LitElement {
       const now = new Date();
       duration = now - this.date;
       this.date += duration % 60000;
-      this.date -= this.date % 1000;
-      this.date += now % 1000;
       this.saveState();
+      this.setText();
     }
   }
 
