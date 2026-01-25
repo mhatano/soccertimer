@@ -350,7 +350,7 @@ const intervalConst = 97;
 const durationSelect = document.getElementById("half-duration-select");
 if (durationSelect) {
   const savedDuration = localStorage.getItem("soccer-timer-duration");
-  if (savedDuration) {
+  if (savedDuration || savedDuration != currentHalfDuration.toString()) {
     currentHalfDuration = parseInt(savedDuration, 10);
     durationSelect.value = savedDuration;
   }
