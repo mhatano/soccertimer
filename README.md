@@ -1,4 +1,10 @@
-# Soccer Timer 1.03 early access
+# Soccer Timer 1.04 early access
+## Update for version 1.04ea
+This is another ealry access version.
+
+* Added 45 minutes and 40 minutes selections.
+* Get some refactoring with help of Gemini code suggestions.
+
 ## Purpose of this web application
 Soccer timer v1.0x is for forty-five minutes half associate football game. Extend time is not supported.
 
