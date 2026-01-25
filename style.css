@@ -25,6 +25,16 @@ body {
   font-size: 24pt;
 }
 
+.config-section {
+  padding: 0 20px 20px 20px;
+  font-size: 14pt;
+}
+
+.config-section select {
+  font-size: 14pt;
+  padding: 5px;
+}
+
 .button-section {
   display: grid;
   grid-template-columns: 200px 200px;
