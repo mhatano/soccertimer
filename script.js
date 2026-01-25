@@ -56,8 +56,8 @@ class AdjustButton extends LitElement {
   }
 
   _buttonClicked(e) {
-    var thisHalfClock = document.getElementById("this-half");
-    var totalClock = document.getElementById("total");
+    const thisHalfClock = document.getElementById("this-half");
+    const totalClock = document.getElementById("total");
     if (this.id == "adjust-plus") {
       thisHalfClock.upToZero();
       totalClock.upToZero();
@@ -132,16 +132,16 @@ class ControllerButton extends LitElement {
   }
 
   _buttonClicked(e) {
-    var kickoffButton = document.getElementById("kickoff-button");
-    var timeupButton = document.getElementById("timeup-button");
-    var thisHalfClock = document.getElementById("this-half");
-    var totalClock = document.getElementById("total");
+    const kickoffButton = document.getElementById("kickoff-button");
+    const timeupButton = document.getElementById("timeup-button");
+    const thisHalfClock = document.getElementById("this-half");
+    const totalClock = document.getElementById("total");
     if (this == kickoffButton) {
       if (
         this.getAttribute("label") == "START" ||
         this.getAttribute("label") == "2nd HALF START"
       ) {
-        var date = new Date();
+        const date = new Date();
         thisHalfClock.setTime(date);
         if (timeupButton.getAttribute("label") == "HALF TIME") {
           this.setAttribute("label", "1st HALF STARTED");
@@ -251,14 +251,14 @@ class ClockFace extends LitElement {
   }
 
   setText() {
-    var duration = 0;
+    let duration = 0;
     if (this.date != null) {
-      var now = new Date();
+      const now = new Date();
       duration = Math.floor((now - this.date) / 1000);
       this.text = zeroPadMin(duration / 60) + ":" + zeroPadSec(duration % 60);
     }
-    var timeupButton = document.getElementById("timeup-button");
-    var duration_min = duration / 60;
+    const timeupButton = document.getElementById("timeup-button");
+    const duration_min = duration / 60;
     if (
       (this.id == "this-half" && duration_min > this.halfdur) ||
       (this.id == "total" &&
@@ -271,7 +271,8 @@ class ClockFace extends LitElement {
     } else {
       this.color = "black";
     }
-    this.saveState();
+    // Performance fix: Do not save state on every tick (10 times/sec).
+    // State is already saved when start/stop/adjust happens.
   }
 
   setTimeDiff(_date, min) {
@@ -294,9 +295,9 @@ class ClockFace extends LitElement {
   }
 
   upToZero() {
-    var duration = 0;
+    let duration = 0;
     if (this.date != null) {
-      var now = new Date();
+      const now = new Date();
       duration = now - this.date;
       this.date -= 60000 - (duration % 60000);
       this.date -= this.date % 1000;
@@ -306,9 +307,9 @@ class ClockFace extends LitElement {
   }
 
   downToZero() {
-    var duration = 0;
+    let duration = 0;
     if (this.date != null) {
-      var now = new Date();
+      const now = new Date();
       duration = now - this.date;
       this.date += duration % 60000;
       this.date -= this.date % 1000;
@@ -328,18 +329,17 @@ customElements.define("clock-face", ClockFace);
 
 
 function zeroPadSec(i) {
-  var s = "00" + Math.floor(i);
+  const s = "00" + Math.floor(i);
   return s.substring(s.length - 2);
 }
 
 function zeroPadMin(i) {
-  var s;
   if ( i >= 100 ) {
-    s = "" + Math.floor(i);
+    const s = "" + Math.floor(i);
     return s.substring(s.length - 3);
   }
-  var s = "00" + Math.floor(i);
+  const s = "00" + Math.floor(i);
   return s.substring(s.length - 2);
 }
 
-var intervalConst = 93;
+const intervalConst = 93;
